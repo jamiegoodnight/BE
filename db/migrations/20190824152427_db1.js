@@ -14,8 +14,8 @@ exports.up = function(knex) {
             .notNullable();
       })
       .createTable('listings', listings => {
-          listings.increments();
-
+          listings
+            .increments();
           listings
             .string('listing_name')
             .unique()
@@ -25,13 +25,16 @@ exports.up = function(knex) {
             .unsigned()
             .notNullable()
             .references('id')
-            .inTable('schemes')
+            .inTable('users')
             .onUpdate('CASCADE')
             .onDelete('CASCADE')
-
+         listings
+            .timestamps(true, true)
       })
 };
 
 exports.down = function(knex) {
-    return knex.schema.dropTableIfExists('users');
+    return knex.schema
+        .dropTableIfExists('users')
+        .dropTableIfExists('listings');
 };
