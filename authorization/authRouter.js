@@ -8,10 +8,10 @@ const secrets = require('../config/jwt.js')
 
 // ---------Register---------
 router.post('/register', (req, res) => {
-    let user = req.body;
-
+  let user = req.body;
+  let hash = bcrypt.hashSync(user.password);
+    !user.username ||!user.password || !user.landowner ? res.status(400).json({message: "A new user must have a username, password and landowner field."}):
     // hash password
-    const hash = bcrypt.hashSync(user.password);
     user.password = hash;
 
     Users.add(user)
@@ -27,14 +27,14 @@ router.post('/register', (req, res) => {
 // --------Login-----------
 router.post('/login', (req, res) => {
     let { username, password } = req.body;
-
+    !username ||!password ? res.status(400).json({message: "A user must have a username and password to login."}):
     Users.findBy({ username })
       .first()
       .then(user => {
         if (user && bcrypt.compareSync(password, user.password)) {
           const token = generateToken(user);
-
-          res.status(200).json({ message: `Welcome ${user.username}!`, token });
+          let { username, id} = user
+          res.status(200).json({ message: `Welcome ${username}!`, token, id });
         } else {
           res.status(401).json({ message: 'Invalid Credentials, check the username and password and try again.' });
         }

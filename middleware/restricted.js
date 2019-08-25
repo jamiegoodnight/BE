@@ -10,7 +10,7 @@ module.exports = function restricted(req, res, next) {
       if(err){
         // token is invalid
         console.log(err)
-        res.status(401).json({message: 'you shall not pass, invalid token'})
+        res.status(401).json({message: 'Your token is invalid. You are unauthorized.'})
       } else {
         // goood token
         req.user = { username: decodedToken.username}
@@ -18,7 +18,7 @@ module.exports = function restricted(req, res, next) {
       }
     })
   } else {
-    res.status(400).json({message: 'bad panda. gimme token'})
+    res.status(400).json({message: 'Get a token and try again. :-)'})
   }
 
 };
