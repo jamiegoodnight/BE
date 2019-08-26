@@ -10,7 +10,7 @@ const secrets = require('../config/jwt.js')
 router.post('/register', (req, res) => {
   let user = req.body;
   let hash = bcrypt.hashSync(user.password);
-    !user.username ||!user.password || !user.landowner ? res.status(400).json({message: "A new user must have a username, password and landowner field."}):
+    !user.username ||!user.password || !user.hasOwnProperty('landowner') ? res.status(400).json({message: "A new user must have a username, password and landowner field."}):
     // hash password
     user.password = hash;
 
