@@ -4,7 +4,7 @@ const Listings = require('../listings/listings-model.js');
 const restricted = require('../middleware/restricted.js');
 
 // ----- Get all listings ------
-router.get('/',  restricted, (req, res) => {
+router.get('/', (req, res) => {
     Listings.find()
       .then(listing => {
         res.status(200).json(listing);
