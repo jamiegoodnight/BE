@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 
-exports.seed = function(knex) {
+exports.seed = function(knex, Promise) {
 
   return knex('users')
     .truncate()
