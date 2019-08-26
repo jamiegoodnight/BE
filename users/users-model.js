@@ -4,6 +4,8 @@ module.exports = {
     add,
     findBy,
     findById,
+    update,
+    remove
   };
 
   function add(user) {
@@ -23,4 +25,16 @@ module.exports = {
 
   function findBy(filter) {
     return db('users').where(filter);
+  }
+
+  function remove(id) {
+    return db('users')
+      .where({id})
+      .del()
+  }
+
+  function update(data, id){
+    return db('users')
+      .where({id})
+      .update(data)
   }

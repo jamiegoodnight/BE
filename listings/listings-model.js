@@ -5,7 +5,8 @@ module.exports = {
     find,
     findBy,
     findById,
-    remove
+    remove,
+    update
   };
 
   function find() {
@@ -14,10 +15,11 @@ module.exports = {
 
   function add(listing) {
     return db('listings')
-      .insert(listing, 'id')
+    .insert(listing, 'listing_id')
       .then(ids => {
-        const [id] = ids;
-        return findById(id);
+        console.log("DID we get here?", ids)
+        const [listing_id] = ids;
+        return findById(listing_id);
       });
   }
 
@@ -27,12 +29,18 @@ module.exports = {
 
   function findById(id) {
     return db('listings')
-      .where({ id })
+      .where({ listing_id: id })
       .first();
   }
 
   function remove(id) {
     return db('listings')
-      .where({id})
+      .where({listing_id: id})
       .del()
+  }
+
+  function update(data, id){
+    return db('listings')
+      .where({listing_id: id})
+      .update(data)
   }
