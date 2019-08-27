@@ -2,6 +2,7 @@ const db = require('../db/dbConfig.js');
 
 module.exports = {
     add,
+    find,
     findBy,
     findById,
     update,
@@ -15,6 +16,10 @@ module.exports = {
         const [id] = ids;
         return findById(id);
       });
+  }
+
+  function find() {
+    return db('users').select('*');
   }
 
   function findById(id) {
