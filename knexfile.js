@@ -19,7 +19,7 @@ module.exports = {
     connection: {
       filename: './db/database.db3'
     },
-    debug: true,
+    debug: false,
     pool: {
       afterCreate: (conn, done) => {
         conn.run('PRAGMA foreign_keys = ON', done);
