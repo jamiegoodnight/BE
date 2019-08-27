@@ -18,5 +18,44 @@ router.put('/:id', restricted, (req,res)=>{
       })
   })
 
+// ----- Get a User -----
+router.get('/:id', restricted, (req,res)=> {
+  const id = req.params.id
+
+  Users.findById(id)
+    .then( user => {
+      !user ? res.status(400).json({message: "That user does not exist."}) :
+      res.status(200).json(user)
+    })
+    .catch( err => {
+      res.status(500).json({message: "Error happened in the server", err})
+    })
+})
+
+//----- Get all Users -----
+router.get('/', restricted, (req,res) => {
+    Users.find()
+      .then( users => {
+        res.status(200).json(users)
+      .catch( err => {
+        res.status(500).json({message: "Oh no, an error happened", err})
+      })
+      })
+} )
+
+// ----- Delete A User -----
+router.delete('/:id', restricted, (req,res)=> {
+  const id = req.params.id
+
+   Users.remove(id)
+ .then( deleted => {
+   !deleted ? res.status(400).json({message: "That User does not exist."}) :
+   res.status(200).json({message: `Successfully deleted listing with an ID of ${id}`})
+ })
+ .catch(err => {
+   res.status(500).json({message: "There was a problem in the server with your request."})
+ })
+})
+
 
 module.exports = router;

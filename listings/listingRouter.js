@@ -57,4 +57,18 @@ router.put('/:id', restricted, (req,res)=>{
     })
 })
 
+// ----- Get a Listing by Id -----
+router.get('/:id', (req,res)=> {
+  const id = req.params.id
+  console.log("ID HERE!!!!", id)
+  Listings.findById(id)
+    .then( listing => {
+      !listing ? res.status(400).json({message: "That listing does not exist."}) :
+      res.status(200).json(listing)
+    })
+    .catch( err => {
+      res.status(500).json({message: "Error happened in the server", err})
+    })
+})
+
   module.exports = router;
