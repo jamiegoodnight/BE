@@ -66,7 +66,7 @@ router.get('/:id', (req,res)=> {
     .then( listing => {
       !listing ? res.status(400).json({message: "That listing does not exist."}) :
       console.log("HERES THE FRICKIN ID", id)
-      Bookings.findBy({user_id: id})
+      Bookings.findBy({listing_id: id})
       .then(bookings => {
         res.status(200).json({...listing, bookings})
       })
