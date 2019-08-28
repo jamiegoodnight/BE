@@ -43,3 +43,4 @@ module.exports = {
       .where({id})
       .update(data)
   }
+
