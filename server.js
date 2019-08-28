@@ -2,9 +2,9 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 
-const authRouter = require('./authorization/authRouter')
-const listingRouter = require('./listings/listingRouter')
-const userRouter = require('./users/userRouter')
+const authRouter = require('./routes/authRouter')
+const listingRouter = require('./routes/listingRouter')
+const userRouter = require('./routes/userRouter')
 
 const server = express();
 
@@ -19,6 +19,7 @@ server.get('/', (req,res)=>{
 server.use('/auth', authRouter)
 server.use('/listings', listingRouter)
 server.use('/users', userRouter)
+
 
 
 module.exports = server;

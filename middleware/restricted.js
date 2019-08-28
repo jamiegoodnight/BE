@@ -13,7 +13,8 @@ module.exports = function restricted(req, res, next) {
         res.status(401).json({message: 'Your token is invalid. You are unauthorized.'})
       } else {
         // goood token
-        req.user = { username: decodedToken.username}
+        req.username = { username: decodedToken.username}
+        req.userId =  decodedToken.subject
         next();
       }
     })

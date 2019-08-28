@@ -1,6 +1,9 @@
 const router = require('express').Router();
 
-const Users = require('./users-model.js');
+const Users = require('../models/users-model.js');
+const Listings = require('../models/listings-model.js');
+const Bookings = require('../models/bookings-model.js');
+
 const restricted = require('../middleware/restricted.js');
 
 // ----- Update User -----
@@ -24,8 +27,23 @@ router.get('/:id', restricted, (req,res)=> {
 
   Users.findById(id)
     .then( user => {
+
       !user ? res.status(400).json({message: "That user does not exist."}) :
-      res.status(200).json(user)
+
+      Listings.findBy({user_id: id})
+      .then( listings => {
+        Bookings.findBy({user_id: id})
+          .then(bookings => {
+            res.status(200).json({...user,listings, bookings})
+          })
+          .catch( err => {
+            res.status(500).json({err, message: "In Bookings data model"})
+          })
+      })
+      .catch(err => {
+        res.status(500).json({err})
+      })
+
     })
     .catch( err => {
       res.status(500).json({message: "Error happened in the server", err})
@@ -37,10 +55,10 @@ router.get('/', restricted, (req,res) => {
     Users.find()
       .then( users => {
         res.status(200).json(users)
-      .catch( err => {
-        res.status(500).json({message: "Oh no, an error happened", err})
       })
-      })
+        .catch( err => {
+          res.status(500).json({message: "Oh no, an error happened", err})
+        })
 } )
 
 // ----- Delete A User -----
